@@ -25,21 +25,25 @@ Una elegante invitación digital para celebrar los XV años de Abril con un dise
 ## 🎨 Características de Diseño
 
 ### Marco Dorado Interactivo
+
 - Gradientes sofisticados con efectos de luz
 - Animaciones de hover sutiles
 - Efectos de glow dinámicos
 
 ### Sistema de Partículas
+
 - 6 capas de partículas doradas
 - Animaciones CSS optimizadas
 - Efectos de profundidad
 
 ### Timeline Visual
+
 - Iconos temáticos para cada evento
 - Efectos de hover interactivos
 - Layout responsivo alternado
 
 ### Botón RSVP Mejorado
+
 - Efectos de shimmer y glow
 - Animaciones de pulsación
 - Visibilidad garantizada durante scroll
@@ -47,6 +51,7 @@ Una elegante invitación digital para celebrar los XV años de Abril con un dise
 ## 📱 Responsive Design
 
 La invitación está completamente optimizada para:
+
 - 📱 Móviles (320px+)
 - 📱 Tablets (768px+)
 - 💻 Desktop (1024px+)
@@ -87,8 +92,8 @@ Esta invitación está desplegada usando GitHub Pages y es accesible en:
 
 **Fecha**: 1 de Enero, 2026  
 **Lugar**: [Ubicación del evento]  
-**Hora**: [Hora del evento]  
+**Hora**: [Hora del evento]
 
 ---
 
-*Invitación creada con ❤️ usando tecnologías web modernas*
+_Invitación creada con ❤️ usando tecnologías web modernas_
