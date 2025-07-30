@@ -143,7 +143,15 @@ document.addEventListener("DOMContentLoaded", () => {
     programTimeline.appendChild(timelineItem);
   });
 
-  document.getElementById("dress-code").textContent = invitacion.dressCode;
+  // Add dress code with icons
+  const dressCodeElement = document.getElementById("dress-code");
+  const iconsHtml = invitacion.dressCodeIcons.map(icon => 
+    `<i class="${icon} dress-code-icon"></i>`
+  ).join(' ');
+  dressCodeElement.innerHTML = `
+    <div class="dress-code-icons">${iconsHtml}</div>
+    <div class="dress-code-text">${invitacion.dressCode}</div>
+  `;
 
   const giftsInfo = document.getElementById("gifts-info");
   giftsInfo.innerHTML = "";

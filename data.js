@@ -30,12 +30,12 @@ export const invitacion = {
   ],
   dressCode:
     "Formal/Gala — Se sugiere no usar tonos rosa ni dorado para la vestimenta de los invitados, a fin de resaltar los colores de la festejada.",
+  dressCodeIcons: ["fas fa-crown", "fas fa-tshirt", "fas fa-user-tie"],
   regalos: [
     {
       imagne:
         "https://xn--mis-xv-aos-09a.com/ultra-premium-modelo-1-color-palo-de-rosa/_assets/media/10ee784bbbad3e545ce03ef4a9fa3b54.png",
-      descripcion:
-        "Si deseas hacer un regalo, te agradeceríamos que lo hicieras en efectivo",
+      descripcion: "¡Gracias por formar parte de este día!",
     },
   ],
   rsvpLink:
