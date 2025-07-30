@@ -194,60 +194,57 @@ document.addEventListener("DOMContentLoaded", () => {
         scrub: true,
         pin: true,
         onUpdate: (self) => {
-          // Fade out countdown and entire scene1 as we scroll down
+          // Smooth fade out countdown and scene1 as we scroll down
           const progress = self.progress;
-          gsap.to(countdownContainer, {
-            opacity: 1 - progress,
-            duration: 0.1,
-            ease: "none",
-          });
-          gsap.to(scene1, {
-            opacity: 1 - progress * 0.5,
-            duration: 0.1,
-            ease: "none",
-          });
+          const countdownOpacity = Math.max(0, 1 - progress * 1.2);
+          const scene1Opacity = Math.max(0.3, 1 - progress * 0.7);
+          
+          gsap.set(countdownContainer, { opacity: countdownOpacity });
+          gsap.set(scene1, { opacity: scene1Opacity });
 
           // Trigger scroll fireworks
           fireworksController.onScrollFireworks(progress);
         },
         onLeave: () => {
-          // Complete fade out of scene1
-          gsap.to(scene1, { opacity: 0, duration: 0.5, ease: "power2.out" });
-          gsap.set(scene2, { display: "flex" }); // Make scene2 visible
+          // Smooth transition to scene2
+          gsap.set(scene1, { opacity: 0 }); // Immediately hide scene1
+          gsap.set(scene2, { display: "flex", opacity: 0, y: 30 }); // Prepare scene2
+          
+          // Animate scene2 entrance
           gsap.to(scene2, {
             opacity: 1,
             y: 0,
-            duration: 0.8,
+            duration: 0.6,
             ease: "power2.out",
           });
           gsap.to(inviteBox, {
             opacity: 1,
             rotationY: 0,
-            duration: 1,
+            duration: 0.8,
             ease: "power2.out",
           });
           gsap.to(topFloral, {
             translateY: "0%",
-            duration: 1,
+            duration: 0.8,
             ease: "power2.out",
           });
           gsap.to(bottomFloral, {
             translateY: "0%",
-            duration: 1,
+            duration: 0.8,
             ease: "power2.out",
           });
-          gsap.to(goldFrame, { "--sparkle-opacity": 1, duration: 0.5 });
+          gsap.to(goldFrame, { "--sparkle-opacity": 1, duration: 0.4 });
 
           // Celebration burst when entering scene 2
           fireworksController.celebrationBurst();
         },
         onEnterBack: () => {
-          // Restore scene1 opacity when scrolling back up
-          gsap.to(scene1, { opacity: 1, duration: 0.5, ease: "power2.out" });
+          // Smooth transition back to scene1
+          gsap.set(scene1, { opacity: 1 }); // Immediately restore scene1
           gsap.to(scene2, {
             opacity: 0,
             y: 50,
-            duration: 0.8,
+            duration: 0.6,
             ease: "power2.out",
             onComplete: () => {
               gsap.set(scene2, { display: "none" }); // Hide scene2 completely
@@ -256,26 +253,22 @@ document.addEventListener("DOMContentLoaded", () => {
           gsap.to(inviteBox, {
             opacity: 0,
             rotationY: 10,
-            duration: 0.8,
+            duration: 0.6,
             ease: "power2.out",
           });
           gsap.to(topFloral, {
             translateY: "-100%",
-            duration: 0.8,
+            duration: 0.6,
             ease: "power2.out",
           });
           gsap.to(bottomFloral, {
             translateY: "100%",
-            duration: 0.8,
+            duration: 0.6,
             ease: "power2.out",
           });
-          gsap.to(goldFrame, { "--sparkle-opacity": 0, duration: 0.5 });
-          // Restore countdown when scrolling back up
-          gsap.to(countdownContainer, {
-            opacity: 1,
-            duration: 0.5,
-            ease: "power2.out",
-          });
+          gsap.to(goldFrame, { "--sparkle-opacity": 0, duration: 0.3 });
+          // Restore countdown immediately
+          gsap.set(countdownContainer, { opacity: 1 });
         },
       },
     })
