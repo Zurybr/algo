@@ -16,12 +16,14 @@ export const invitacion = {
       hora: "16:30",
       lugar: "Parroquia de San Miguel Arcángel",
       coords: [19.4326, -99.1332],
+      icono: "church",
     },
     {
       evento: "Recepción y Banquete",
       hora: "20:00",
       lugar: "Salón de Eventos 'El Castillo Encantado'",
       coords: [19.4, -99.15],
+      icono: "celebration",
     },
   ],
   dressCode:

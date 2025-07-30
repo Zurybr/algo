@@ -9,6 +9,25 @@
     transition: opacity 0.5s ease-out;
 }
 
+#celebration-date {
+    background: rgba(139, 0, 0, 0.9);
+    border: 2px solid var(--color-gold);
+    border-radius: 15px;
+    padding: 15px 25px;
+    margin-bottom: 20px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(8px);
+}
+
+#celebration-date-text {
+    font-family: 'Great Vibes', cursive;
+    font-size: 1.6em;
+    color: var(--color-gold);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    font-weight: 400;
+}
+
 #countdown-timer {
     background: rgba(255, 255, 255, 0.95);
     border: 3px solid var(--color-gold);
@@ -75,6 +94,15 @@
         left: 50%;
         transform: translateX(-50%);
         width: 90%;
+    }
+    
+    #celebration-date {
+        padding: 12px 20px;
+        margin-bottom: 15px;
+    }
+    
+    #celebration-date-text {
+        font-size: 1.3em;
     }
     
     #countdown-timer {

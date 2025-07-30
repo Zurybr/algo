@@ -1,14 +1,50 @@
 import { invitacion } from "./data.js";
 
+// Force scroll to top immediately
+if (history.scrollRestoration) {
+  history.scrollRestoration = 'manual';
+}
+window.addEventListener('beforeunload', () => {
+  window.scrollTo(0, 0);
+});
+
 // GSAP and ScrollTrigger registration
 gsap.registerPlugin(ScrollTrigger);
 
 // --- Content Injection ---
 document.addEventListener("DOMContentLoaded", () => {
+  // Always start at the top of the page
+  window.scrollTo(0, 0);
+  
+  // Initialize fireworks controller
+  const fireworksController = new FireworksController();
+
   document.getElementById("festejada-name").textContent = invitacion.festejada;
   document.getElementById("medallion-name").textContent =
     invitacion.medallionName;
   document.getElementById("invitation-date").textContent = invitacion.fecha;
+
+  // Format and display celebration date
+  const formatCelebrationDate = (fecha, hora) => {
+    const date = new Date(`${fecha} ${hora}:00`);
+    const options = { 
+      weekday: 'long', 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    };
+    const formattedDate = date.toLocaleDateString('es-MX', options);
+    const [hours, minutes] = hora.split(':');
+    const hour = parseInt(hours);
+    const ampm = hour >= 12 ? 'pm' : 'am';
+    const hour12 = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+    const formattedTime = `${hour12}:${minutes} ${ampm}`;
+    
+    return `${formattedDate} a las ${formattedTime}`;
+  };
+
+  document.getElementById("celebration-date-text").textContent = 
+    formatCelebrationDate(invitacion.fecha, invitacion.hora);
 
   // --- Countdown Timer ---
   function updateCountdown() {
@@ -63,9 +99,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const timelineItem = document.createElement("div");
     timelineItem.classList.add("timeline-item");
 
-    const icon = item.evento.toLowerCase().includes("misa")
-      ? "church"
-      : "celebration";
+    // Use the icon from the data object
+    const icon = item.icono || "event"; // fallback to 'event' if no icon specified
 
     // Convert 24h format to 12h Mexican format
     const formatHour = (hora24) => {
@@ -76,6 +111,11 @@ document.addEventListener("DOMContentLoaded", () => {
       return `${hour12}:${minutes} ${ampm}`;
     };
 
+    // Check if location has coordinates for map functionality
+    const hasCoords = item.coords && item.coords.length === 2;
+    const locationClass = hasCoords ? 'timeline-location clickable-location' : 'timeline-location';
+    const mapIndicator = hasCoords ? '<span class="map-indicator" title="Ver en mapa">🗺️</span>' : '';
+    
     timelineItem.innerHTML = `
             <div class="timeline-marker">
                 <span class="material-symbols-outlined timeline-icon">${icon}</span>
@@ -83,12 +123,23 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="timeline-content">
                 <div class="timeline-time">${formatHour(item.hora)}</div>
                 <div class="timeline-event">${item.evento}</div>
-                <div class="timeline-location">
+                <div class="${locationClass}" ${hasCoords ? `data-coords="${item.coords[0]},${item.coords[1]}"` : ''}>
                     <span class="material-symbols-outlined location-icon">place</span>
                     ${item.lugar}
+                    ${mapIndicator}
                 </div>
             </div>
         `;
+        
+    // Add click event for locations with coordinates
+    if (hasCoords) {
+        const locationElement = timelineItem.querySelector('.clickable-location');
+        locationElement.addEventListener('click', () => {
+            const [lat, lng] = item.coords;
+            const googleMapsUrl = `https://maps.google.com/?q=${lat},${lng}`;
+            window.open(googleMapsUrl, '_blank');
+        });
+    }
     programTimeline.appendChild(timelineItem);
   });
 
@@ -148,6 +199,9 @@ document.addEventListener("DOMContentLoaded", () => {
             duration: 0.1,
             ease: "none",
           });
+
+          // Trigger scroll fireworks
+          fireworksController.onScrollFireworks(progress);
         },
         onLeave: () => {
           // Complete fade out of scene1
@@ -176,6 +230,9 @@ document.addEventListener("DOMContentLoaded", () => {
             ease: "power2.out",
           });
           gsap.to(goldFrame, { "--sparkle-opacity": 1, duration: 0.5 });
+
+          // Celebration burst when entering scene 2
+          fireworksController.celebrationBurst();
         },
         onEnterBack: () => {
           // Restore scene1 opacity when scrolling back up
@@ -276,6 +333,10 @@ document.addEventListener("DOMContentLoaded", () => {
         y: 50,
         duration: 1,
         ease: "power2.out",
+        onComplete: () => {
+          // Gift box fully opened - celebration!
+          fireworksController.celebrationBurst();
+        },
       },
       "<0.5"
     ); // Fade out entire gift box container
