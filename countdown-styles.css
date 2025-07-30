@@ -1,12 +1,14 @@
 /* Countdown Timer Styles */
 #countdown-container {
     position: absolute;
-    top: 80px;
+    bottom: 120px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
     opacity: 1;
     transition: opacity 0.5s ease-out;
+    width: 90%;
+    max-width: 500px;
 }
 
 #celebration-date {
@@ -95,33 +97,33 @@
         transform: translateX(-50%);
         width: 90%;
     }
-    
+
     #celebration-date {
         padding: 12px 20px;
         margin-bottom: 15px;
     }
-    
+
     #celebration-date-text {
         font-size: 1.3em;
     }
-    
+
     #countdown-timer {
         padding: 20px;
     }
-    
+
     .countdown-label {
         font-size: 1.4em;
         margin-bottom: 12px;
     }
-    
+
     .countdown-unit span:first-child {
         font-size: 1.8em;
     }
-    
+
     .unit-label {
         font-size: 0.8em;
     }
-    
+
     .countdown-separator {
         font-size: 1.6em;
         margin: 0 3px;

@@ -56,9 +56,17 @@
             height: 100vh;
             background: linear-gradient(135deg, #ffe4e6 0%, #fce7f3 30%, #fdf2f8 100%);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 1000;
+        }
+
+        #gift-box-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 40px;
         }
 
         .gift-box {
@@ -106,12 +114,15 @@
         /* Loading indicator */
         .loading-indicator {
             position: absolute;
-            bottom: 30px;
+            bottom: 50px;
             left: 50%;
             transform: translateX(-50%);
             color: #D4AF37;
             font-size: 18px;
+            font-family: 'Great Vibes', cursive;
             animation: pulse 2s infinite;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         @keyframes pulse {
