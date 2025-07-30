@@ -16,7 +16,7 @@ export const invitacion = {
         "Parroquia de la santísima Trinidad de Nuestra Señora del refugio",
       hora: "19:00",
       lugar: "francisco Tamagno 254, colonia Peralvillo, CP 06220",
-      coords: [19.4326, -99.1332],
+      coords: [19.463459515176538, -99.13366404537067],
       icono: "church",
     },
     {
@@ -24,7 +24,7 @@ export const invitacion = {
       hora: "20:00",
       lugar:
         "av insurgentes 1970, colonia lindavista , CP 07300, alcaldía Gustavo a Madero",
-      coords: [19.4, -99.15],
+      coords: [19.49172115474178, -99.12130713373027],
       icono: "celebration",
     },
   ],
