@@ -39,5 +39,5 @@ export const invitacion = {
     },
   ],
   rsvpLink:
-    "https://wa.me/5585420616?text=Hola%20Abril,%20confirmo%20mi%20asistencia%20a%20tus%20XV%20Años.%20Gracias%20por%20la%20invitación!",
+    "https://wa.me/51708312?text=Hola%20Abril,%20confirmo%20mi%20asistencia%20a%20tus%20XV%20Años.%20Gracias%20por%20la%20invitación!",
 };

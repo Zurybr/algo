@@ -23,11 +23,25 @@
     opacity: 1 !important;
     transform: translateY(0) scale(1) !important;
     transition: none !important;
+    animation: none !important;
+    will-change: auto !important;
 }
 
 .content-block.rsvp-section.is-in-view {
     opacity: 1 !important;
     transform: translateY(0) scale(1) !important;
+    transition: none !important;
+    animation: none !important;
+}
+
+/* Disable GSAP transforms on RSVP section */
+.rsvp-section[style*="transform"] {
+    transform: translateY(0) scale(1) !important;
+}
+
+/* Smooth visibility transitions only when needed */
+.rsvp-section.smooth-transition {
+    transition: opacity 0.3s ease-out !important;
 }
 
 #rsvp-button {

@@ -29,6 +29,12 @@ class RSVPButtonManager {
       return;
     }
 
+    // Wait for GSAP to be ready if it exists
+    if (window.gsap) {
+      // Override GSAP animations for RSVP section
+      this.preventGSAPConflicts();
+    }
+
     this.ensureButtonVisibility();
     this.setupIntersectionObserver();
     this.setupScrollHandler();
@@ -40,8 +46,36 @@ class RSVPButtonManager {
     console.log("RSVP Button Manager initialized successfully");
   }
 
+  preventGSAPConflicts() {
+    // Create a GSAP timeline specifically for RSVP that overrides others
+    if (window.gsap && window.ScrollTrigger) {
+      gsap.set(this.rsvpSection, {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        force3D: false,
+        clearProps: "transform,opacity",
+      });
+
+      // Create a permanent override
+      ScrollTrigger.create({
+        trigger: this.rsvpSection,
+        start: "top bottom",
+        end: "bottom top",
+        onUpdate: () => {
+          gsap.set(this.rsvpSection, {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0,
+          });
+        },
+      });
+    }
+  }
+
   ensureButtonVisibility() {
-    // Force visibility immediately
+    // Force visibility with less aggressive approach
     const styles = {
       display: "inline-block",
       visibility: "visible",
@@ -51,25 +85,28 @@ class RSVPButtonManager {
       pointerEvents: "auto",
     };
 
+    // Apply styles more gently
     Object.assign(this.button.style, styles);
 
     // Add classes for CSS targeting
     this.button.classList.add("visible", "force-visible");
     this.rsvpSection.classList.add("visible", "in-view", "is-in-view");
 
-    // Override GSAP animations that might interfere
-    if (window.gsap) {
+    // Override GSAP animations only when necessary
+    if (window.gsap && !this.isVisible()) {
       gsap.set(this.rsvpSection, {
         opacity: 1,
         y: 0,
         scale: 1,
-        clearProps: "all",
+        duration: 0.1,
+        ease: "none",
       });
       gsap.set(this.button, {
         opacity: 1,
         y: 0,
         scale: 1,
-        clearProps: "all",
+        duration: 0.1,
+        ease: "none",
       });
     }
   }
@@ -77,20 +114,20 @@ class RSVPButtonManager {
   setupIntersectionObserver() {
     const options = {
       root: null,
-      rootMargin: "50px 0px",
-      threshold: [0, 0.1, 0.5, 1.0],
+      rootMargin: "100px 0px", // Increased margin to trigger earlier
+      threshold: [0.1], // Simplified threshold
     };
 
     this.observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.target === this.rsvpSection) {
           if (entry.isIntersecting) {
-            this.makeButtonVisible();
-            this.rsvpSection.classList.add("in-view");
-          } else {
-            // Still keep it visible even when not intersecting
-            this.ensureButtonVisibility();
+            // Only add classes, don't force styles to avoid conflicts
+            this.rsvpSection.classList.add("in-view", "is-in-view");
+            this.button.classList.add("visible");
           }
+          // Always keep visible regardless of intersection
+          this.ensureMinimalVisibility();
         }
       });
     }, options);
@@ -98,8 +135,20 @@ class RSVPButtonManager {
     this.observer.observe(this.rsvpSection);
   }
 
+  ensureMinimalVisibility() {
+    // Minimal intervention to avoid conflicts
+    if (!this.isVisible()) {
+      this.rsvpSection.style.opacity = "1";
+      this.button.style.opacity = "1";
+      this.button.style.visibility = "visible";
+      this.button.style.display = "inline-block";
+    }
+  }
+
   setupScrollHandler() {
     let ticking = false;
+    let lastScrollY = window.scrollY;
+    let scrollDirection = "down";
 
     const scrollHandler = () => {
       if (!ticking) {
@@ -111,10 +160,15 @@ class RSVPButtonManager {
       }
     };
 
+    // Use passive scroll listener with reduced frequency
     window.addEventListener("scroll", scrollHandler, { passive: true });
-    window.addEventListener("resize", () => this.ensureButtonVisibility(), {
-      passive: true,
-    });
+    window.addEventListener(
+      "resize",
+      () => {
+        setTimeout(() => this.ensureButtonVisibility(), 100);
+      },
+      { passive: true }
+    );
   }
 
   handleScroll() {
@@ -123,13 +177,22 @@ class RSVPButtonManager {
       clearTimeout(this.scrollTimeout);
     }
 
-    // Always ensure visibility during scroll
-    this.ensureButtonVisibility();
+    // Only check visibility when necessary, not constantly
+    const currentScrollY = window.scrollY;
+    const scrollDirection = currentScrollY > this.lastScrollY ? "down" : "up";
+    this.lastScrollY = currentScrollY;
 
-    // Add a small delay to re-check after scroll ends
+    // Less aggressive checking during scroll
+    if (!this.isVisible()) {
+      this.ensureButtonVisibility();
+    }
+
+    // Only force visibility check after scroll ends
     this.scrollTimeout = setTimeout(() => {
-      this.forceVisibility();
-    }, 100);
+      if (!this.isVisible()) {
+        this.forceVisibility();
+      }
+    }, 150);
   }
 
   makeButtonVisible() {
@@ -139,14 +202,17 @@ class RSVPButtonManager {
     this.button.classList.remove("hidden", "fade-out");
     this.button.classList.add("visible", "fade-in");
 
-    // Force styles
-    Object.assign(this.button.style, {
-      display: "inline-block !important",
-      visibility: "visible !important",
-      opacity: "1 !important",
-      transform: "translateY(0) !important",
-      zIndex: "100 !important",
-    });
+    // Force styles with smooth transitions
+    const smoothStyles = {
+      display: "inline-block",
+      visibility: "visible",
+      opacity: "1",
+      transform: "translateY(0)",
+      zIndex: "100",
+      transition: "opacity 0.2s ease-out, transform 0.2s ease-out",
+    };
+
+    Object.assign(this.button.style, smoothStyles);
 
     // Trigger reflow to ensure styles are applied
     this.button.offsetHeight;
@@ -299,13 +365,13 @@ window.forceRSVPVisibility = () => {
   }
 };
 
-// Additional safety check every few seconds
+// Additional safety check - less frequent to avoid conflicts
 setInterval(() => {
   if (rsvpManager && !rsvpManager.isVisible()) {
     console.warn("RSVP button not visible, forcing visibility...");
     rsvpManager.refresh();
   }
-}, 3000);
+}, 5000); // Increased from 3000 to 5000ms
 
 // Handle page visibility changes
 document.addEventListener("visibilitychange", () => {
