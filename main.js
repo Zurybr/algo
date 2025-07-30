@@ -143,13 +143,12 @@ document.addEventListener("DOMContentLoaded", () => {
     programTimeline.appendChild(timelineItem);
   });
 
-  // Add dress code with icons
+  // Add dress code with icon
   const dressCodeElement = document.getElementById("dress-code");
-  const iconsHtml = invitacion.dressCodeIcons.map(icon => 
-    `<i class="${icon} dress-code-icon"></i>`
-  ).join(' ');
   dressCodeElement.innerHTML = `
-    <div class="dress-code-icons">${iconsHtml}</div>
+    <div class="dress-code-icons">
+      <img src="${invitacion.dressCodeIcon}" alt="Formal/Gala" class="dress-code-image" />
+    </div>
     <div class="dress-code-text">${invitacion.dressCode}</div>
   `;
 

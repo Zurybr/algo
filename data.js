@@ -30,7 +30,7 @@ export const invitacion = {
   ],
   dressCode:
     "Formal/Gala — Se sugiere no usar tonos rosa ni dorado para la vestimenta de los invitados, a fin de resaltar los colores de la festejada.",
-  dressCodeIcons: ["fas fa-crown", "fas fa-tshirt", "fas fa-user-tie"],
+  dressCodeIcon: "https://cdn-icons-png.flaticon.com/512/4933/4933825.png",
   regalos: [
     {
       imagne:

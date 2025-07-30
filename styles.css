@@ -278,8 +278,8 @@ body {
 }
 
 .gift-image {
-    width: 80px;
-    height: 80px;
+    width: 120px;
+    height: 120px;
     object-fit: contain;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
@@ -294,49 +294,116 @@ body {
     text-align: left;
 }
 
-/* RSVP Button */
+/* RSVP Button - Enhanced for Touch */
 .jewel-button {
     display: inline-block;
-    padding: 18px 35px;
-    background-color: var(--color-gold);
+    padding: 20px 40px;
+    background: linear-gradient(135deg, var(--color-gold) 0%, #FFD700 50%, var(--color-gold) 100%);
     color: var(--color-light-text);
     font-family: 'Playfair Display', serif;
-    font-size: 1.5em;
+    font-size: 1.6em;
+    font-weight: 700;
     text-decoration: none;
+    text-align: center;
+    min-width: 200px;
     border: 3px solid var(--color-gold);
-    border-radius: 60px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    transition: all 0.4s var(--ease-out-bounce);
+    border-radius: 50px;
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.3),
+        0 4px 12px rgba(212, 175, 55, 0.4),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
     z-index: 1;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .jewel-button::before {
     content: '';
     position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.6s ease;
+    z-index: 1;
+}
+
+.jewel-button::after {
+    content: '👑';
+    position: absolute;
+    right: 15px;
     top: 50%;
-    left: 50%;
-    width: 350%;
-    height: 350%;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    transition: all 0.8s ease-out;
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0;
-    z-index: -1;
+    transform: translateY(-50%);
+    font-size: 1.2em;
+    transition: all 0.3s ease;
+    z-index: 2;
 }
 
-.jewel-button:hover {
-    background-color: var(--color-red);
+/* Touch/Hover Effects */
+.jewel-button:hover,
+.jewel-button:focus {
+    background: linear-gradient(135deg, var(--color-red) 0%, #DC143C 50%, var(--color-red) 100%);
     border-color: var(--color-red);
-    transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 
+        0 12px 35px rgba(0, 0, 0, 0.4),
+        0 6px 20px rgba(220, 20, 60, 0.5),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.1);
 }
 
-.jewel-button:hover::before {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
+.jewel-button:hover::before,
+.jewel-button:focus::before {
+    left: 100%;
+}
+
+.jewel-button:hover::after,
+.jewel-button:focus::after {
+    transform: translateY(-50%) scale(1.2) rotate(10deg);
+}
+
+/* Active/Touch State */
+.jewel-button:active {
+    transform: translateY(-1px) scale(0.98);
+    box-shadow: 
+        0 4px 15px rgba(0, 0, 0, 0.3),
+        0 2px 8px rgba(212, 175, 55, 0.3),
+        inset 0 2px 0 rgba(0, 0, 0, 0.1),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+    transition: all 0.1s ease;
+}
+
+/* Pulse animation for attention */
+@keyframes buttonPulse {
+    0% { 
+        box-shadow: 
+            0 8px 25px rgba(0, 0, 0, 0.3),
+            0 4px 12px rgba(212, 175, 55, 0.4),
+            0 0 0 0 rgba(212, 175, 55, 0.7);
+    }
+    70% { 
+        box-shadow: 
+            0 8px 25px rgba(0, 0, 0, 0.3),
+            0 4px 12px rgba(212, 175, 55, 0.4),
+            0 0 0 10px rgba(212, 175, 55, 0);
+    }
+    100% { 
+        box-shadow: 
+            0 8px 25px rgba(0, 0, 0, 0.3),
+            0 4px 12px rgba(212, 175, 55, 0.4),
+            0 0 0 0 rgba(212, 175, 55, 0);
+    }
+}
+
+.jewel-button {
+    animation: buttonPulse 2s infinite;
 }
 
 /* Accessibility (AA) and Responsiveness */
@@ -364,8 +431,9 @@ body {
     }
 
     .jewel-button {
-        font-size: 1.3em;
-        padding: 15px 30px;
+        font-size: 1.4em;
+        padding: 18px 35px;
+        min-width: 250px;
     }
 
     .gift-item {
@@ -399,8 +467,9 @@ body {
     }
 
     .jewel-button {
-        font-size: 1.1em;
-        padding: 10px 20px;
+        font-size: 1.2em;
+        padding: 16px 30px;
+        min-width: 200px;
     }
 }
 
@@ -1087,39 +1156,300 @@ body {
     margin-bottom: 25px;
 }
 
-/* Dress Code Icons Styles */
+/* Dress Code Image Styles */
 .dress-code-icons {
     display: flex;
     justify-content: center;
-    gap: 20px;
     margin-bottom: 15px;
     padding: 10px 0;
 }
 
-.dress-code-icon {
-    font-size: 2em;
-    color: var(--color-gold);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+.dress-code-image {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
     transition: all 0.3s ease;
 }
 
-.dress-code-icon:nth-child(1) {
-    /* Crown - Gala */
-    color: var(--color-gold);
-}
-
-.dress-code-icon:nth-child(2) {
-    /* Dress */
-    color: var(--color-red);
-}
-
-.dress-code-icon:nth-child(3) {
-    /* Smoking/Tuxedo */
-    color: var(--color-dark-text);
+.dress-code-image:hover {
+    transform: scale(1.1);
+    filter: drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.3));
 }
 
 .dress-code-text {
     text-align: center;
+}
+
+/* Welcome Message Enhanced Styles */
+.welcome-block {
+    margin: 40px 0;
+    padding: 0;
+}
+
+.welcome-frame {
+    position: relative;
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.95) 0%, 
+        rgba(255, 248, 220, 0.9) 50%, 
+        rgba(255, 255, 255, 0.95) 100%);
+    border: 3px solid var(--color-gold);
+    border-radius: 20px;
+    padding: 35px 30px;
+    margin: 20px 0;
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.15),
+        0 4px 12px rgba(212, 175, 55, 0.2),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -2px 0 rgba(212, 175, 55, 0.1);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.welcome-frame::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+        var(--color-gold), 
+        var(--color-red), 
+        var(--color-gold), 
+        var(--color-red));
+    background-size: 300% 300%;
+    border-radius: 22px;
+    z-index: -1;
+    animation: borderGlow 4s ease-in-out infinite;
+    opacity: 0.7;
+}
+
+.welcome-frame:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 
+        0 12px 35px rgba(0, 0, 0, 0.2),
+        0 6px 20px rgba(212, 175, 55, 0.3),
+        inset 0 2px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -2px 0 rgba(212, 175, 55, 0.2);
+}
+
+.welcome-frame:hover::before {
+    animation-duration: 2s;
+    opacity: 1;
+}
+
+.welcome-message-text {
+    font-family: 'Great Vibes', cursive;
+    font-size: 1.8em;
+    line-height: 1.6;
+    color: var(--color-dark-text);
+    text-align: center;
+    margin: 0;
+    padding: 15px 0;
+    position: relative;
+    z-index: 2;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.welcome-ornament {
+    text-align: center;
+    font-size: 2em;
+    color: var(--color-gold);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    animation: sparkle 3s ease-in-out infinite;
+    position: relative;
+}
+
+.top-ornament {
+    margin-bottom: 15px;
+    animation-delay: 0s;
+}
+
+.bottom-ornament {
+    margin-top: 15px;
+    animation-delay: 1.5s;
+}
+
+@keyframes borderGlow {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes sparkle {
+    0%, 100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 0.8;
+    }
+    25% {
+        transform: scale(1.1) rotate(90deg);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2) rotate(180deg);
+        opacity: 0.9;
+    }
+    75% {
+        transform: scale(1.1) rotate(270deg);
+        opacity: 1;
+    }
+}
+
+/* Mobile Welcome Message */
+@media (max-width: 768px) {
+    .welcome-frame {
+        padding: 25px 20px;
+        margin: 15px 0;
+    }
+    
+    .welcome-message-text {
+        font-size: 1.5em;
+        line-height: 1.5;
+    }
+    
+    .welcome-ornament {
+        font-size: 1.5em;
+    }
+}
+
+/* Acknowledgement Message Enhanced Styles */
+.acknowledgement-block {
+    margin: 40px 0;
+    padding: 0;
+}
+
+.acknowledgement-frame {
+    position: relative;
+    background: linear-gradient(135deg, 
+        rgba(139, 0, 0, 0.05) 0%, 
+        rgba(255, 255, 255, 0.95) 30%, 
+        rgba(255, 255, 255, 0.95) 70%, 
+        rgba(139, 0, 0, 0.05) 100%);
+    border: 3px solid var(--color-red);
+    border-radius: 20px;
+    padding: 35px 30px;
+    margin: 20px 0;
+    box-shadow: 
+        0 8px 25px rgba(139, 0, 0, 0.15),
+        0 4px 12px rgba(139, 0, 0, 0.2),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -2px 0 rgba(139, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.acknowledgement-frame::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+        var(--color-red), 
+        var(--color-gold), 
+        var(--color-red), 
+        var(--color-gold));
+    background-size: 300% 300%;
+    border-radius: 22px;
+    z-index: -1;
+    animation: borderGlow 4s ease-in-out infinite;
+    opacity: 0.6;
+}
+
+.acknowledgement-frame:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 
+        0 12px 35px rgba(139, 0, 0, 0.2),
+        0 6px 20px rgba(139, 0, 0, 0.3),
+        inset 0 2px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -2px 0 rgba(139, 0, 0, 0.2);
+}
+
+.acknowledgement-frame:hover::before {
+    animation-duration: 2s;
+    opacity: 0.9;
+}
+
+.acknowledgement-message-text {
+    font-family: 'Great Vibes', cursive;
+    font-size: 1.7em;
+    line-height: 1.6;
+    color: var(--color-dark-text);
+    text-align: center;
+    margin: 0;
+    padding: 15px 0;
+    position: relative;
+    z-index: 2;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+    font-style: italic;
+}
+
+.acknowledgement-ornament {
+    text-align: center;
+    font-size: 1.8em;
+    color: var(--color-red);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    animation: heartbeat 2.5s ease-in-out infinite;
+    position: relative;
+}
+
+.acknowledgement-block .top-ornament {
+    margin-bottom: 15px;
+    animation-delay: 0s;
+}
+
+.acknowledgement-block .bottom-ornament {
+    margin-top: 15px;
+    animation-delay: 1.25s;
+}
+
+@keyframes heartbeat {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    20% {
+        transform: scale(1.3);
+        opacity: 1;
+    }
+    40% {
+        transform: scale(1.1);
+        opacity: 0.9;
+    }
+    60% {
+        transform: scale(1.4);
+        opacity: 1;
+    }
+    80% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+}
+
+/* Mobile Acknowledgement Message */
+@media (max-width: 768px) {
+    .acknowledgement-frame {
+        padding: 25px 20px;
+        margin: 15px 0;
+    }
+    
+    .acknowledgement-message-text {
+        font-size: 1.4em;
+        line-height: 1.5;
+    }
+    
+    .acknowledgement-ornament {
+        font-size: 1.4em;
+    }
 }
 
 .content-block {
@@ -1258,8 +1588,8 @@ body {
 }
 
 .gift-image {
-    width: 80px;
-    height: 80px;
+    width: 120px;
+    height: 120px;
     object-fit: contain;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
@@ -1274,49 +1604,116 @@ body {
     text-align: left;
 }
 
-/* RSVP Button */
+/* RSVP Button - Enhanced for Touch */
 .jewel-button {
     display: inline-block;
-    padding: 18px 35px;
-    background-color: var(--color-gold);
+    padding: 20px 40px;
+    background: linear-gradient(135deg, var(--color-gold) 0%, #FFD700 50%, var(--color-gold) 100%);
     color: var(--color-light-text);
     font-family: 'Playfair Display', serif;
-    font-size: 1.5em;
+    font-size: 1.6em;
+    font-weight: 700;
     text-decoration: none;
+    text-align: center;
+    min-width: 200px;
     border: 3px solid var(--color-gold);
-    border-radius: 60px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    transition: all 0.4s var(--ease-out-bounce);
+    border-radius: 50px;
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.3),
+        0 4px 12px rgba(212, 175, 55, 0.4),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
     z-index: 1;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .jewel-button::before {
     content: '';
     position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.6s ease;
+    z-index: 1;
+}
+
+.jewel-button::after {
+    content: '👑';
+    position: absolute;
+    right: 15px;
     top: 50%;
-    left: 50%;
-    width: 350%;
-    height: 350%;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    transition: all 0.8s ease-out;
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0;
-    z-index: -1;
+    transform: translateY(-50%);
+    font-size: 1.2em;
+    transition: all 0.3s ease;
+    z-index: 2;
 }
 
-.jewel-button:hover {
-    background-color: var(--color-red);
+/* Touch/Hover Effects */
+.jewel-button:hover,
+.jewel-button:focus {
+    background: linear-gradient(135deg, var(--color-red) 0%, #DC143C 50%, var(--color-red) 100%);
     border-color: var(--color-red);
-    transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 
+        0 12px 35px rgba(0, 0, 0, 0.4),
+        0 6px 20px rgba(220, 20, 60, 0.5),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.1);
 }
 
-.jewel-button:hover::before {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
+.jewel-button:hover::before,
+.jewel-button:focus::before {
+    left: 100%;
+}
+
+.jewel-button:hover::after,
+.jewel-button:focus::after {
+    transform: translateY(-50%) scale(1.2) rotate(10deg);
+}
+
+/* Active/Touch State */
+.jewel-button:active {
+    transform: translateY(-1px) scale(0.98);
+    box-shadow: 
+        0 4px 15px rgba(0, 0, 0, 0.3),
+        0 2px 8px rgba(212, 175, 55, 0.3),
+        inset 0 2px 0 rgba(0, 0, 0, 0.1),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+    transition: all 0.1s ease;
+}
+
+/* Pulse animation for attention */
+@keyframes buttonPulse {
+    0% { 
+        box-shadow: 
+            0 8px 25px rgba(0, 0, 0, 0.3),
+            0 4px 12px rgba(212, 175, 55, 0.4),
+            0 0 0 0 rgba(212, 175, 55, 0.7);
+    }
+    70% { 
+        box-shadow: 
+            0 8px 25px rgba(0, 0, 0, 0.3),
+            0 4px 12px rgba(212, 175, 55, 0.4),
+            0 0 0 10px rgba(212, 175, 55, 0);
+    }
+    100% { 
+        box-shadow: 
+            0 8px 25px rgba(0, 0, 0, 0.3),
+            0 4px 12px rgba(212, 175, 55, 0.4),
+            0 0 0 0 rgba(212, 175, 55, 0);
+    }
+}
+
+.jewel-button {
+    animation: buttonPulse 2s infinite;
 }
 
 /* Accessibility (AA) and Responsiveness */
@@ -1344,8 +1741,9 @@ body {
     }
 
     .jewel-button {
-        font-size: 1.3em;
-        padding: 15px 30px;
+        font-size: 1.4em;
+        padding: 18px 35px;
+        min-width: 250px;
     }
 
     .gift-item {
@@ -1379,7 +1777,8 @@ body {
     }
 
     .jewel-button {
-        font-size: 1.1em;
-        padding: 10px 20px;
+        font-size: 1.2em;
+        padding: 16px 30px;
+        min-width: 200px;
     }
 }

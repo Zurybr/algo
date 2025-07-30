@@ -1,4 +1,4 @@
-/* Enhanced Gold Frame Styles */
+/* Enhanced Gold Frame Styles with Advanced Interactivity */
 
 .gold-frame {
     border: 8px solid transparent !important;
@@ -25,11 +25,15 @@
         0 0 0 1px rgba(255, 215, 0, 0.2) !important;
     filter: brightness(1.04) contrast(1.08) saturate(1.05) !important;
     --sparkle-opacity: 0;
-    /* Custom property for sparkle control */
-    transition: all 0.3s ease-out;
+    --glow-intensity: 0.3;
+    --border-animation-speed: 8s;
+    /* Custom properties for dynamic control */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    overflow: hidden;
 }
 
-/* Ornate outer glow effect */
+/* Interactive border animation */
 .gold-frame::before {
     content: '';
     position: absolute;
@@ -37,20 +41,22 @@
     left: -6px;
     right: -6px;
     bottom: -6px;
-    background: linear-gradient(45deg,
-            rgba(255, 215, 0, 0.3) 0%,
-            rgba(218, 165, 32, 0.2) 20%,
-            rgba(255, 255, 220, 0.15) 40%,
-            rgba(255, 248, 220, 0.25) 60%,
-            rgba(218, 165, 32, 0.2) 80%,
-            rgba(255, 215, 0, 0.3) 100%);
+    background:
+        linear-gradient(45deg,
+            rgba(255, 215, 0, var(--glow-intensity)) 0%,
+            rgba(218, 165, 32, calc(var(--glow-intensity) * 0.7)) 20%,
+            rgba(255, 255, 220, calc(var(--glow-intensity) * 0.5)) 40%,
+            rgba(255, 248, 220, calc(var(--glow-intensity) * 0.8)) 60%,
+            rgba(218, 165, 32, calc(var(--glow-intensity) * 0.7)) 80%,
+            rgba(255, 215, 0, var(--glow-intensity)) 100%);
     border-radius: 16px;
     z-index: -1;
     filter: blur(1px);
-    animation: subtleGlow 8s infinite ease-in-out;
+    animation: dynamicGlow var(--border-animation-speed) infinite ease-in-out;
+    transition: all 0.4s ease-out;
 }
 
-/* Enhanced sparkle effect with multiple layers */
+/* Animated corner decorations */
 .gold-frame::after {
     content: '';
     position: absolute;
@@ -59,22 +65,250 @@
     width: 100%;
     height: 100%;
     background:
-        radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.4) 0%, transparent 20%),
-        radial-gradient(circle at 75% 35%, rgba(255, 248, 220, 0.3) 0%, transparent 15%),
-        radial-gradient(circle at 35% 75%, rgba(255, 255, 255, 0.35) 0%, transparent 18%);
+        radial-gradient(circle at 15% 15%, rgba(255, 255, 255, 0.6) 0%, transparent 25%),
+        radial-gradient(circle at 85% 15%, rgba(255, 248, 220, 0.4) 0%, transparent 20%),
+        radial-gradient(circle at 15% 85%, rgba(255, 255, 255, 0.5) 0%, transparent 22%),
+        radial-gradient(circle at 85% 85%, rgba(255, 248, 220, 0.45) 0%, transparent 18%);
     opacity: var(--sparkle-opacity);
-    animation: gentleSparkle 6s infinite ease-in-out;
+    animation: cornerSparkles 4s infinite ease-in-out;
     mix-blend-mode: soft-light;
     border-radius: 8px;
+    pointer-events: none;
 }
 
-/* Corner decorative elements */
+/* Floating light particles */
+.gold-frame {
+    --particle-1-x: 20%;
+    --particle-1-y: 30%;
+    --particle-2-x: 70%;
+    --particle-2-y: 60%;
+    --particle-3-x: 40%;
+    --particle-3-y: 80%;
+}
+
+.gold-frame:nth-child(odd) {
+    --particle-1-x: 25%;
+    --particle-2-x: 75%;
+    --particle-3-x: 45%;
+}
+
+/* Hover interactions */
+.gold-frame:hover {
+    --glow-intensity: 0.8;
+    --border-animation-speed: 3s;
+    --sparkle-opacity: 0.7;
+    transform: scale(1.02) translateY(-2px);
+    box-shadow:
+        inset 0 0 20px rgba(255, 215, 0, 0.4),
+        inset 0 0 40px rgba(255, 248, 220, 0.2),
+        0 0 40px rgba(212, 175, 55, 0.6),
+        0 15px 35px rgba(0, 0, 0, 0.25),
+        0 0 0 2px rgba(255, 215, 0, 0.4) !important;
+    filter: brightness(1.08) contrast(1.12) saturate(1.15) !important;
+}
+
+/* Click/Active interaction */
+.gold-frame:active {
+    transform: scale(0.98) translateY(1px);
+    transition: all 0.15s ease-out;
+}
+
+/* Focus interaction for accessibility */
+.gold-frame:focus {
+    outline: none;
+    --glow-intensity: 0.6;
+    --sparkle-opacity: 0.5;
+}
+
+/* Advanced animations */
+@keyframes dynamicGlow {
+
+    0%,
+    100% {
+        opacity: 0.5;
+        transform: scale(1) rotate(0deg);
+    }
+
+    25% {
+        opacity: 0.8;
+        transform: scale(1.005) rotate(0.5deg);
+    }
+
+    50% {
+        opacity: 0.9;
+        transform: scale(1.01) rotate(0deg);
+    }
+
+    75% {
+        opacity: 0.7;
+        transform: scale(1.005) rotate(-0.5deg);
+    }
+}
+
+@keyframes cornerSparkles {
+
+    0%,
+    100% {
+        opacity: 0;
+        transform: scale(0.8) rotate(0deg);
+    }
+
+    20% {
+        opacity: 0.4;
+        transform: scale(1.1) rotate(10deg);
+    }
+
+    40% {
+        opacity: 0.7;
+        transform: scale(1.3) rotate(-5deg);
+    }
+
+    60% {
+        opacity: 0.5;
+        transform: scale(1.0) rotate(15deg);
+    }
+
+    80% {
+        opacity: 0.3;
+        transform: scale(0.9) rotate(-10deg);
+    }
+}
+
+/* Floating particles effect */
 .gold-frame:hover::before {
-    animation: hoverGlow 2s ease-out forwards;
+    animation: hoverPulse 1.5s ease-out infinite;
 }
 
-.gold-frame:hover::after {
-    animation: hoverSparkle 1.5s ease-out forwards;
+@keyframes hoverPulse {
+
+    0%,
+    100% {
+        filter: blur(1px) brightness(1);
+        transform: scale(1);
+    }
+
+    50% {
+        filter: blur(0.5px) brightness(1.2);
+        transform: scale(1.02);
+    }
+}
+
+/* Breathing effect when not hovering */
+@keyframes frameBreathing {
+
+    0%,
+    100% {
+        transform: scale(1);
+        filter: brightness(1.04) saturate(1.05);
+    }
+
+    50% {
+        transform: scale(1.005);
+        filter: brightness(1.06) saturate(1.08);
+    }
+}
+
+.gold-frame:not(:hover) {
+    animation: frameBreathing 6s infinite ease-in-out;
+}
+
+/* Mouse-following glow effect */
+.gold-frame:hover::before {
+    background:
+        radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+            rgba(255, 215, 0, 0.8) 0%,
+            rgba(255, 215, 0, 0.4) 30%,
+            transparent 60%),
+        linear-gradient(45deg,
+            rgba(255, 215, 0, var(--glow-intensity)) 0%,
+            rgba(218, 165, 32, calc(var(--glow-intensity) * 0.7)) 20%,
+            rgba(255, 255, 220, calc(var(--glow-intensity) * 0.5)) 40%,
+            rgba(255, 248, 220, calc(var(--glow-intensity) * 0.8)) 60%,
+            rgba(218, 165, 32, calc(var(--glow-intensity) * 0.7)) 80%,
+            rgba(255, 215, 0, var(--glow-intensity)) 100%);
+}
+
+/* Frame visibility animation */
+.gold-frame.frame-visible {
+    animation: frameAppear 1s ease-out forwards;
+}
+
+@keyframes frameAppear {
+    0% {
+        opacity: 0;
+        transform: scale(0.95) translateY(20px);
+        filter: brightness(0.8) saturate(0.8);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0px);
+        filter: brightness(1.04) saturate(1.05);
+    }
+}
+
+/* Dynamic particle positions */
+.gold-frame::after {
+    background:
+        radial-gradient(circle at var(--particle-1-x, 15%) var(--particle-1-y, 15%),
+            rgba(255, 255, 255, 0.6) 0%, transparent 25%),
+        radial-gradient(circle at var(--particle-2-x, 85%) var(--particle-2-y, 15%),
+            rgba(255, 248, 220, 0.4) 0%, transparent 20%),
+        radial-gradient(circle at var(--particle-3-x, 15%) var(--particle-3-y, 85%),
+            rgba(255, 255, 255, 0.5) 0%, transparent 22%),
+        radial-gradient(circle at 85% 85%,
+            rgba(255, 248, 220, 0.45) 0%, transparent 18%);
+    transition: background 0.3s ease-out;
+}
+
+/* Touch feedback for mobile */
+.gold-frame.touching {
+    transform: scale(1.01);
+    --glow-intensity: 0.9;
+    --sparkle-opacity: 0.8;
+}
+
+/* Loading shimmer effect */
+@keyframes frameShimmer {
+    0% {
+        background-position: -100% 0;
+    }
+
+    100% {
+        background-position: 100% 0;
+    }
+}
+
+.gold-frame::before {
+    background-size: 200% 100%;
+    animation:
+        dynamicGlow var(--border-animation-speed) infinite ease-in-out,
+        frameShimmer 3s infinite linear;
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+
+    .gold-frame,
+    .gold-frame::before,
+    .gold-frame::after {
+        animation: none !important;
+        transition: opacity 0.3s ease-out !important;
+    }
+
+    .gold-frame:hover {
+        --sparkle-opacity: 0.3;
+        --glow-intensity: 0.5;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .gold-frame {
+        border: 8px solid #FFD700 !important;
+        background: white !important;
+        box-shadow: 0 0 0 2px #000000 !important;
+    }
 }
 
 /* Smooth and elegant animations */
