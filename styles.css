@@ -1452,6 +1452,87 @@ body {
     }
 }
 
+/* Elegant Section Dividers */
+.elegant-divider {
+    position: relative;
+    height: 1px;
+    margin: 50px auto;
+    max-width: 300px;
+    background: linear-gradient(to right, 
+        transparent 0%, 
+        rgba(212, 175, 55, 0.3) 20%, 
+        rgba(212, 175, 55, 0.8) 50%, 
+        rgba(212, 175, 55, 0.3) 80%, 
+        transparent 100%);
+    overflow: visible;
+}
+
+.elegant-divider::before {
+    content: '❋';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ivory-card);
+    color: var(--color-gold);
+    font-size: 1.5em;
+    padding: 0 15px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    animation: dividerGlow 3s ease-in-out infinite alternate;
+}
+
+.elegant-divider::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 5px;
+    background: linear-gradient(45deg, 
+        transparent, 
+        rgba(212, 175, 55, 0.2), 
+        rgba(212, 175, 55, 0.4), 
+        rgba(212, 175, 55, 0.2), 
+        transparent);
+    border-radius: 3px;
+    filter: blur(1px);
+}
+
+@keyframes dividerGlow {
+    0% {
+        text-shadow: 
+            1px 1px 2px rgba(0, 0, 0, 0.1),
+            0 0 8px rgba(212, 175, 55, 0.3);
+        transform: translateX(-50%) scale(1);
+    }
+    100% {
+        text-shadow: 
+            1px 1px 2px rgba(0, 0, 0, 0.1),
+            0 0 15px rgba(212, 175, 55, 0.6),
+            0 0 25px rgba(212, 175, 55, 0.3);
+        transform: translateX(-50%) scale(1.1);
+    }
+}
+
+/* Mobile Dividers */
+@media (max-width: 768px) {
+    .elegant-divider {
+        margin: 35px auto;
+        max-width: 250px;
+    }
+    
+    .elegant-divider::before {
+        font-size: 1.3em;
+        padding: 0 12px;
+    }
+    
+    .elegant-divider::after {
+        width: 30px;
+        height: 4px;
+    }
+}
+
 .content-block {
     opacity: 0;
     transform: translateY(30px);

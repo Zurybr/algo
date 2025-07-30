@@ -1,0 +1,234 @@
+/* RSVP Button Fix - Ensuring Visibility and Accessibility */
+
+.rsvp-section {
+    position: relative;
+    z-index: 50 !important;
+    margin: 40px 0 !important;
+    padding: 30px 20px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    min-height: 120px !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 15px !important;
+    backdrop-filter: blur(5px) !important;
+    border: 1px solid rgba(212, 175, 55, 0.3) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) scale(1) !important;
+}
+
+/* Override any content-block animations for RSVP section */
+.content-block.rsvp-section {
+    opacity: 1 !important;
+    transform: translateY(0) scale(1) !important;
+    transition: none !important;
+}
+
+.content-block.rsvp-section.is-in-view {
+    opacity: 1 !important;
+    transform: translateY(0) scale(1) !important;
+}
+
+#rsvp-button {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    z-index: 100 !important;
+    padding: 22px 45px !important;
+    background: linear-gradient(135deg, #D4AF37 0%, #FFD700 30%, #FFF8DC 50%, #FFD700 70%, #D4AF37 100%) !important;
+    color: #2C3E50 !important;
+    font-family: 'Playfair Display', serif !important;
+    font-size: 1.7em !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    text-align: center !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3) !important;
+    min-width: 280px !important;
+    border: 4px solid #B8860B !important;
+    border-radius: 60px !important;
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.4),
+        0 6px 15px rgba(212, 175, 55, 0.6),
+        inset 0 3px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -3px 0 rgba(0, 0, 0, 0.2),
+        0 0 0 2px rgba(255, 215, 0, 0.3) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transform: translateZ(0) !important;
+    cursor: pointer !important;
+    user-select: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+    touch-action: manipulation !important;
+    pointer-events: auto !important;
+}
+
+/* Enhanced button states */
+#rsvp-button:hover,
+#rsvp-button:focus {
+    transform: translateY(-4px) scale(1.05) translateZ(0) !important;
+    background: linear-gradient(135deg, #FFD700 0%, #FFF8DC 30%, #FFFACD 50%, #FFF8DC 70%, #FFD700 100%) !important;
+    box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.5),
+        0 8px 20px rgba(212, 175, 55, 0.8),
+        inset 0 4px 0 rgba(255, 255, 255, 0.5),
+        inset 0 -4px 0 rgba(0, 0, 0, 0.3),
+        0 0 0 3px rgba(255, 215, 0, 0.5),
+        0 0 25px rgba(255, 215, 0, 0.4) !important;
+    color: #1A252F !important;
+    border-color: #DAA520 !important;
+}
+
+#rsvp-button:active {
+    transform: translateY(-1px) scale(1.02) translateZ(0) !important;
+    transition: all 0.1s ease-out !important;
+}
+
+/* Pulsing animation to draw attention */
+@keyframes rsvpPulse {
+
+    0%,
+    100% {
+        box-shadow:
+            0 12px 30px rgba(0, 0, 0, 0.4),
+            0 6px 15px rgba(212, 175, 55, 0.6),
+            inset 0 3px 0 rgba(255, 255, 255, 0.4),
+            inset 0 -3px 0 rgba(0, 0, 0, 0.2),
+            0 0 0 2px rgba(255, 215, 0, 0.3);
+    }
+
+    50% {
+        box-shadow:
+            0 12px 30px rgba(0, 0, 0, 0.4),
+            0 6px 15px rgba(212, 175, 55, 0.8),
+            inset 0 3px 0 rgba(255, 255, 255, 0.4),
+            inset 0 -3px 0 rgba(0, 0, 0, 0.2),
+            0 0 0 4px rgba(255, 215, 0, 0.6),
+            0 0 20px rgba(255, 215, 0, 0.4);
+    }
+}
+
+#rsvp-button:not(:hover):not(:focus) {
+    animation: rsvpPulse 3s infinite ease-in-out;
+}
+
+/* Glowing border effect */
+#rsvp-button::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #FFD700, #FFF8DC, #FFD700, #FFF8DC);
+    border-radius: 62px;
+    z-index: -1;
+    opacity: 0.7;
+    filter: blur(1px);
+    animation: buttonGlow 2s infinite ease-in-out alternate;
+}
+
+@keyframes buttonGlow {
+    0% {
+        opacity: 0.5;
+        filter: blur(1px);
+    }
+
+    100% {
+        opacity: 0.9;
+        filter: blur(2px);
+    }
+}
+
+/* Shimmer effect */
+#rsvp-button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    border-radius: 60px;
+    z-index: 1;
+    animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        left: -100%;
+    }
+
+    100% {
+        left: 100%;
+    }
+}
+
+/* Force visibility on scroll */
+.rsvp-section.visible,
+.rsvp-section.in-view {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    .rsvp-section {
+        margin: 30px 0 !important;
+        padding: 25px 15px !important;
+        min-height: 100px !important;
+    }
+
+    #rsvp-button {
+        padding: 18px 35px !important;
+        font-size: 1.4em !important;
+        min-width: 240px !important;
+        border-width: 3px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #rsvp-button {
+        padding: 15px 25px !important;
+        font-size: 1.2em !important;
+        min-width: 200px !important;
+    }
+}
+
+/* Accessibility improvements */
+#rsvp-button:focus {
+    outline: 3px solid rgba(255, 215, 0, 0.8) !important;
+    outline-offset: 4px !important;
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    #rsvp-button {
+        background: #FFD700 !important;
+        color: #000000 !important;
+        border: 4px solid #000000 !important;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8) !important;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+
+    #rsvp-button,
+    #rsvp-button::before,
+    #rsvp-button::after {
+        animation: none !important;
+    }
+
+    #rsvp-button:hover {
+        transform: translateY(-2px) translateZ(0) !important;
+    }
+}
+
+/* Force button to stay above all other elements */
+#rsvp-button {
+    isolation: isolate !important;
+    will-change: transform !important;
+    contain: layout style paint !important;
+}
