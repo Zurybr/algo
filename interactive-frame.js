@@ -10,15 +10,17 @@ document.addEventListener("DOMContentLoaded", function () {
   let ticking = false;
 
   // Intersection Observer for frame visibility
+  let frameActivated = false;
+
   const frameObserver = new IntersectionObserver(
-    (entries) => {
+    (entries, observer) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && !frameActivated) {
+          frameActivated = true;
           entry.target.classList.add("frame-visible");
-          // Trigger sparkle effect when frame comes into view
           entry.target.style.setProperty("--sparkle-opacity", "0.5");
-        } else {
-          entry.target.classList.remove("frame-visible");
+          observer.unobserve(entry.target);
+        } else if (!entry.isIntersecting && frameActivated) {
           entry.target.style.setProperty("--sparkle-opacity", "0");
         }
       });

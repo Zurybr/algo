@@ -343,6 +343,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Scene 2: Content Block Fade-in + Micro-parallax + Pop effect
   gsap.utils.toArray(".content-block").forEach((block) => {
+    const updateY = gsap.quickSetter(block, "y", "px");
     gsap.fromTo(
       block,
       { opacity: 0, y: 50, scale: 0.95 }, // Initial scale for pop effect
@@ -360,7 +361,7 @@ document.addEventListener("DOMContentLoaded", () => {
           onUpdate: (self) => {
             const progress = self.progress;
             const parallaxAmount = (1 - progress) * 30; // Increased parallax
-            gsap.to(block, { y: parallaxAmount, duration: 0.2, ease: "none" });
+            updateY(parallaxAmount);
           },
         },
       }
