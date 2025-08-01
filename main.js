@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           // Disable ScrollTrigger after first play to conserve resources
           if (introTimeline.scrollTrigger) {
-            introTimeline.scrollTrigger.kill();
+            introTimeline.scrollTrigger.kill(true);
           }
         },
         onEnterBack: () => {
@@ -370,7 +370,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Quick navigation: skip intro and scroll to section
   function skipIntroAndScroll(target) {
     if (introTimeline.scrollTrigger && !introTimeline.scrollTrigger.disabled) {
-      introTimeline.scrollTrigger.kill();
+      introTimeline.scrollTrigger.kill(true);
       introTimeline.progress(1);
     }
     gsap.set(scene1, { opacity: 0 });
