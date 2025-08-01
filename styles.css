@@ -138,6 +138,9 @@ body {
     z-index: 5;
     /* Ensure invite-box creates a stacking context */
     /* opacity and transform will be controlled by GSAP */
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .gold-frame {
@@ -149,6 +152,9 @@ body {
     /* Gold frame should be behind text but above card background */
     --sparkle-opacity: 0;
     /* Custom property for sparkle control */
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .gold-frame::after {
