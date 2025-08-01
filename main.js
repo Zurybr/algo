@@ -346,31 +346,20 @@ document.addEventListener("DOMContentLoaded", () => {
       "<0.5"
     ); // Fade out entire gift box container
 
-  // Scene 2: Content Block Fade-in + Micro-parallax + Pop effect
-  gsap.utils.toArray(".content-block").forEach((block) => {
-    const updateY = gsap.quickSetter(block, "y", "px");
-    gsap.fromTo(
-      block,
-      { opacity: 0, y: 50, scale: 0.95 }, // Initial scale for pop effect
-      {
+  // Scene 2: Simplified content reveal to improve performance
+  ScrollTrigger.batch(".content-block", {
+    start: "top 90%",
+    onEnter: (batch) =>
+      gsap.to(batch, {
         opacity: 1,
         y: 0,
-        scale: 1, // Final scale
-        duration: 1, // Longer duration for smoother pop
-        ease: "power2.out", // Stronger ease for pop
-        scrollTrigger: {
-          trigger: block,
-          start: "top 80%", // Trigger earlier
-          end: "bottom 20%",
-          toggleActions: "play none none reverse",
-          onUpdate: (self) => {
-            const progress = self.progress;
-            const parallaxAmount = (1 - progress) * 30; // Increased parallax
-            updateY(parallaxAmount);
-          },
-        },
-      }
-    );
+        duration: 0.6,
+        ease: "power2.out",
+        stagger: 0.1,
+      }),
+    onLeaveBack: (batch) =>
+      gsap.set(batch, { opacity: 0, y: 40 }),
+    once: true,
   });
 
   // Quick navigation: skip intro and scroll to section
