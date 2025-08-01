@@ -95,12 +95,18 @@ document.addEventListener("DOMContentLoaded", () => {
     invitacion.padrinos.join(" y ");
 
   const programTimeline = document.getElementById("program-timeline");
+  const iconMap = {
+    church: "⛪",
+    celebration: "🎉",
+    event: "📅",
+  };
+
   invitacion.programa.forEach((item) => {
     const timelineItem = document.createElement("div");
     timelineItem.classList.add("timeline-item");
 
-    // Use the icon from the data object
-    const icon = item.icono || "event"; // fallback to 'event' if no icon specified
+    // Use emoji icons for better cross‑browser support
+    const icon = iconMap[item.icono] || iconMap.event;
 
     // Convert 24h format to 12h Mexican format
     const formatHour = (hora24) => {
@@ -118,13 +124,13 @@ document.addEventListener("DOMContentLoaded", () => {
     
     timelineItem.innerHTML = `
             <div class="timeline-marker">
-                <span class="material-symbols-outlined timeline-icon">${icon}</span>
+                <span class="timeline-icon">${icon}</span>
             </div>
             <div class="timeline-content">
                 <div class="timeline-time">${formatHour(item.hora)}</div>
                 <div class="timeline-event">${item.evento}</div>
                 <div class="${locationClass}" ${hasCoords ? `data-coords="${item.coords[0]},${item.coords[1]}"` : ''}>
-                    <span class="material-symbols-outlined location-icon">place</span>
+                    <span class="location-icon">📍</span>
                     ${item.lugar}
                     ${mapIndicator}
                 </div>
