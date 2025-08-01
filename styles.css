@@ -1592,6 +1592,7 @@ body {
     transform: translateY(30px);
     transition: opacity var(--transition-speed) ease-out, transform var(--transition-speed) ease-out;
     margin-bottom: 40px;
+    will-change: transform, opacity;
 }
 
 .content-block.is-in-view {
