@@ -9,7 +9,7 @@ window.addEventListener('beforeunload', () => {
 });
 
 // GSAP and ScrollTrigger registration
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 // --- Content Injection ---
 document.addEventListener("DOMContentLoaded", () => {
@@ -369,16 +369,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Quick navigation: skip intro and scroll to section
   function skipIntroAndScroll(target) {
+    // Kill the intro animation if it's running
     if (introTimeline.scrollTrigger && !introTimeline.scrollTrigger.disabled) {
-      introTimeline.scrollTrigger.kill(true);
-      introTimeline.progress(1);
+        introTimeline.scrollTrigger.kill(true);
     }
-    gsap.set(scene1, { opacity: 0 });
-    gsap.set(scene2, { display: "flex", opacity: 1, y: 0 });
-    gsap.set(inviteBox, { opacity: 1, rotationY: 0 });
-    setTimeout(() => {
-      document.querySelector(target)?.scrollIntoView({ behavior: "smooth" });
-    }, 50);
+
+    const transitionTl = gsap.timeline();
+
+    // 1. Fade out scene1
+    transitionTl.to(scene1, {
+        duration: 0.4,
+        opacity: 0,
+        ease: "power2.in",
+        onComplete: () => {
+            gsap.set(scene1, { display: "none" });
+        }
+    });
+
+    // 2. Prepare and reveal scene2. Reset invite box state for animation.
+    gsap.set(inviteBox, { opacity: 0, rotationY: 10, y: 20 });
+    transitionTl.set(scene2, { display: "flex", opacity: 1 });
+
+    // Animate the invitation box entrance
+    transitionTl.to(inviteBox, {
+        opacity: 1,
+        rotationY: 0,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.out",
+    }, ">-0.2");
+
+    // 3. Scroll smoothly to the target section
+    transitionTl.to(window, {
+        duration: 1.2,
+        ease: 'power2.inOut',
+        scrollTo: {
+            y: target,
+            offsetY: 80 // Offset for the fixed nav bar
+        }
+    }, "<"); // Start scrolling at the same time as the invite box animates in
   }
 
   document.querySelectorAll("#quick-nav a").forEach((link) => {
