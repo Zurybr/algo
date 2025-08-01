@@ -242,6 +242,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
           // Celebration burst when entering scene 2
           fireworksController.celebrationBurst();
+
+          // Disable ScrollTrigger after first play to conserve resources
+          if (introTimeline.scrollTrigger) {
+            introTimeline.scrollTrigger.kill();
+          }
         },
         onEnterBack: () => {
           // Smooth transition back to scene1
