@@ -459,6 +459,9 @@ body {
 
 /* Accessibility (AA) and Responsiveness */
 @media (max-width: 768px) {
+    #scene2 {
+        padding: 60px 15px;
+    }
     .invitation-title {
         font-size: 3em;
     }
@@ -499,6 +502,12 @@ body {
 }
 
 @media (max-width: 480px) {
+    #scene2 {
+        padding: 40px 10px;
+    }
+    .invite-box {
+        padding: 20px;
+    }
     .invitation-title {
         font-size: 2.5em;
     }
@@ -1868,6 +1877,9 @@ body {
 
 /* Accessibility (AA) and Responsiveness */
 @media (max-width: 768px) {
+    #scene2 {
+        padding: 60px 15px;
+    }
     .invitation-title {
         font-size: 3em;
     }
@@ -1908,6 +1920,12 @@ body {
 }
 
 @media (max-width: 480px) {
+    #scene2 {
+        padding: 40px 10px;
+    }
+    .invite-box {
+        padding: 20px;
+    }
     .invitation-title {
         font-size: 2.5em;
     }
