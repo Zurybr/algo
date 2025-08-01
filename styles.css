@@ -49,6 +49,19 @@
     text-decoration: none;
 }
 
+@media (max-width: 480px) {
+    #quick-nav {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        padding: 6px 0;
+    }
+
+    #quick-nav a {
+        font-size: 0.9rem;
+        padding: 4px 8px;
+    }
+}
+
 
 html {
     scroll-behavior: smooth;
