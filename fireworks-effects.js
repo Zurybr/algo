@@ -30,7 +30,7 @@ class FireworksController {
   }
 
   initSparkles() {
-    const numberOfSparkles = 50;
+    const numberOfSparkles = 20; // Reduced from 50 for performance
     for (let i = 0; i < numberOfSparkles; i++) {
       this.sparkles.push({
         x: Math.random() * this.sparklesCanvas.width,

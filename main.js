@@ -202,8 +202,8 @@ document.addEventListener("DOMContentLoaded", () => {
           gsap.set(countdownContainer, { opacity: countdownOpacity });
           gsap.set(scene1, { opacity: scene1Opacity });
 
-          // Trigger scroll fireworks
-          fireworksController.onScrollFireworks(progress);
+          // Trigger scroll fireworks - REMOVED FOR PERFORMANCE
+          // fireworksController.onScrollFireworks(progress);
         },
         onLeave: () => {
           // Smooth transition to scene2
@@ -357,11 +357,7 @@ document.addEventListener("DOMContentLoaded", () => {
           start: "top 80%", // Trigger earlier
           end: "bottom 20%",
           toggleActions: "play none none reverse",
-          onUpdate: (self) => {
-            const progress = self.progress;
-            const parallaxAmount = (1 - progress) * 30; // Increased parallax
-            gsap.to(block, { y: parallaxAmount, duration: 0.2, ease: "none" });
-          },
+          // onUpdate callback removed for performance. The continuous parallax effect was expensive.
         },
       }
     );

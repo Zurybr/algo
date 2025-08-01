@@ -136,19 +136,27 @@ body {
     position: relative;
     overflow: hidden;
     z-index: 5;
-    /* Ensure invite-box creates a stacking context */
     /* opacity and transform will be controlled by GSAP */
 }
 
+/* Simplified gold frame styles for performance */
 .gold-frame {
-    border: 6px solid var(--gold-foil);
-    filter: brightness(1.1);
-    padding: 20px;
-    position: relative;
+    border: 8px solid transparent;
+    background:
+        linear-gradient(var(--ivory-card), var(--ivory-card)) padding-box,
+        linear-gradient(45deg, #B8860B, #FFD700, #B8860B) border-box;
+    padding: 28px;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     z-index: 2;
-    /* Gold frame should be behind text but above card background */
-    --sparkle-opacity: 0;
-    /* Custom property for sparkle control */
+
+    /* Simple transition for hover effect */
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
+.gold-frame:hover {
+  transform: scale(1.01) translateY(-2px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
 }
 
 .gold-frame::after {
@@ -699,36 +707,6 @@ body {
     z-index: 100;
 }
 
-.invite-box {
-    background-color: var(--blush);
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    padding: 40px;
-    max-width: 900px;
-    width: 100%;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    z-index: 5;
-    /* Ensure invite-box creates a stacking context */
-    opacity: 1;
-    visibility: visible;
-    transform: rotateY(0deg);
-}
-
-.invite-box {
-    background-color: var(--blush);
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    padding: 40px;
-    max-width: 900px;
-    width: 100%;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    /* opacity and transform will be controlled by GSAP */
-}
-
 .gold-frame {
     border: 6px solid var(--gold-foil);
     filter: brightness(1.1);
@@ -771,48 +749,8 @@ body {
     }
 }
 
-.invite-box {
-    background-color: var(--blush);
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    padding: 40px;
-    max-width: 900px;
-    width: 100%;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    z-index: 5;
-    /* Ensure invite-box creates a stacking context */
-    /* opacity and transform will be controlled by GSAP */
-}
-
-.gold-frame {
-    border: 6px solid var(--gold-foil);
-    filter: brightness(1.1);
-    padding: 20px;
-    position: relative;
-    z-index: 2;
-    /* Gold frame should be behind text but above card background */
-    --sparkle-opacity: 0;
-    /* Custom property for sparkle control */
-}
-
-.gold-frame::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 70%);
-    opacity: var(--sparkle-opacity);
-    /* Controlled by custom property */
-    animation: sparkle 1.5s infinite ease-out;
-    /* Sparkle animation */
-    mix-blend-mode: overlay;
-}
-
-@keyframes sparkle {
+/* The sparkle animation is no longer needed as the complex frame has been removed. */
+/* @keyframes sparkle {
     0% {
         transform: scale(0);
         opacity: 0;
@@ -827,7 +765,7 @@ body {
         transform: scale(0);
         opacity: 0;
     }
-}
+} */
 
 .invitation-title,
 .invitation-subtitle,
@@ -837,26 +775,20 @@ body {
 .info-text,
 .program-item {
     position: relative;
-    /* Ensure z-index works */
     z-index: 4;
-    /* Ensure text is above gold frame and floral elements */
 }
 
 .card-body {
     background-color: var(--ivory-card);
-    /* Ivory paper texture */
     padding: 30px;
     line-height: 1.6;
     font-family: 'Playfair Display', serif;
     color: var(--black-text);
-    /* Ensure text is visible */
     position: relative;
     z-index: 3;
-    /* Card body should be above its background pseudo-element */
 }
 
 .card-body::before {
-    /* Use pseudo-element for background image to control its opacity */
     content: '';
     position: absolute;
     top: 0;
@@ -867,9 +799,7 @@ body {
     background-size: cover;
     background-position: center;
     opacity: 0.05;
-    /* Even more subtle background image */
     z-index: -1;
-    /* Behind the actual content */
 }
 
 /* Floral elements */
