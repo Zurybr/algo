@@ -185,8 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initially hide the open invitation box
   gsap.set(inviteBox, { opacity: 0, rotationY: 10 });
 
-  gsap
-    .timeline({
+  const introTimeline = gsap.timeline({
       scrollTrigger: {
         trigger: scene1,
         start: "top top",
@@ -366,5 +365,27 @@ document.addEventListener("DOMContentLoaded", () => {
         },
       }
     );
+  });
+
+  // Quick navigation: skip intro and scroll to section
+  function skipIntroAndScroll(target) {
+    if (introTimeline.scrollTrigger && !introTimeline.scrollTrigger.disabled) {
+      introTimeline.scrollTrigger.kill();
+      introTimeline.progress(1);
+    }
+    gsap.set(scene1, { opacity: 0 });
+    gsap.set(scene2, { display: "flex", opacity: 1, y: 0 });
+    gsap.set(inviteBox, { opacity: 1, rotationY: 0 });
+    setTimeout(() => {
+      document.querySelector(target)?.scrollIntoView({ behavior: "smooth" });
+    }, 50);
+  }
+
+  document.querySelectorAll("#quick-nav a").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const target = link.getAttribute("href");
+      skipIntroAndScroll(target);
+    });
   });
 });
