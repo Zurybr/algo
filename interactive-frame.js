@@ -8,17 +8,24 @@ document.addEventListener("DOMContentLoaded", function () {
   // Variables for scroll effects
   let scrollY = 0;
   let ticking = false;
+  const setFrameY = gsap.quickSetter(goldFrame, "y", "px");
+  const setGlow = gsap.quickSetter(goldFrame, "--glow-intensity");
+  const setBorderSpeed = gsap.quickSetter(goldFrame, "--border-animation-speed");
+  const frameOffsetTop = goldFrame.offsetTop;
+  const frameHeight = goldFrame.offsetHeight;
 
   // Intersection Observer for frame visibility
+  let frameActivated = false;
+
   const frameObserver = new IntersectionObserver(
-    (entries) => {
+    (entries, observer) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && !frameActivated) {
+          frameActivated = true;
           entry.target.classList.add("frame-visible");
-          // Trigger sparkle effect when frame comes into view
           entry.target.style.setProperty("--sparkle-opacity", "0.5");
-        } else {
-          entry.target.classList.remove("frame-visible");
+          observer.unobserve(entry.target);
+        } else if (!entry.isIntersecting && frameActivated) {
           entry.target.style.setProperty("--sparkle-opacity", "0");
         }
       });
@@ -34,8 +41,14 @@ document.addEventListener("DOMContentLoaded", function () {
   // Scroll-based animation effects
   function updateScrollEffects() {
     const scrollPercent = Math.min(scrollY / window.innerHeight, 1);
-    const frameRect = goldFrame.getBoundingClientRect();
-    const frameCenter = frameRect.top + frameRect.height / 2;
+    const frameTop = frameOffsetTop - scrollY;
+    const frameBottom = frameTop + frameHeight;
+    if (frameBottom < 0 || frameTop > window.innerHeight) {
+      ticking = false;
+      return;
+    }
+
+    const frameCenter = frameTop + frameHeight / 2;
     const windowCenter = window.innerHeight / 2;
     const distanceFromCenter = Math.abs(frameCenter - windowCenter);
     const maxDistance = window.innerHeight / 2;
@@ -43,18 +56,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Dynamic glow based on scroll position
     const glowIntensity = 0.3 + proximityFactor * 0.4;
-    goldFrame.style.setProperty("--glow-intensity", glowIntensity);
+    setGlow(glowIntensity);
 
     // Dynamic border animation speed
     const animationSpeed = Math.max(3, 8 - proximityFactor * 5);
-    goldFrame.style.setProperty(
-      "--border-animation-speed",
-      `${animationSpeed}s`
-    );
+    setBorderSpeed(`${animationSpeed}s`);
 
     // Parallax effect for the frame
     const parallaxOffset = scrollPercent * 10;
-    goldFrame.style.transform = `translateY(${parallaxOffset}px)`;
+    setFrameY(parallaxOffset);
 
     ticking = false;
   }
